@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun WorkoutPlans() {
+fun TrainingPlans() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier

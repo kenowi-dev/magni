@@ -23,7 +23,7 @@ fun AppBar(
     onNavigationIconClick: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = { Box(modifier = Modifier.padding(start = 20.dp)) { Text(text = title) } },
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Toggle drawer")
