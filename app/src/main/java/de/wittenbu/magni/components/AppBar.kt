@@ -1,4 +1,4 @@
-package de.wittenbu.magni
+package de.wittenbu.magni.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,15 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
+    title: String,
     onNavigationIconClick: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = stringResource(id = R.string.app_name)) },
+        title = { Text(text = title) },
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Toggle drawer")
