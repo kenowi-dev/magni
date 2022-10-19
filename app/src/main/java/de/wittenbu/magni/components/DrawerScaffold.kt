@@ -1,17 +1,22 @@
 package de.wittenbu.magni.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.wittenbu.magni.ui.theme.MagniTheme
+import de.wittenbu.magni.ui.theme.Shape
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,11 +31,21 @@ fun DrawerScaffold(
                 title = { Box(modifier = Modifier.padding(start = 20.dp)) { Text(text = title) } },
                 navigationIcon = {
                     IconButton(onClick = onOpenDrawer) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Toggle drawer")
+                        Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                     }
                 }
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
         content = { innerPadding ->
             Box(
                 contentAlignment = Alignment.Center,
