@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import de.wittenbu.magni.components.LayoutNavHost
+import de.wittenbu.magni.components.Drawer
 import de.wittenbu.magni.ui.theme.MagniTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MagniTheme {
-                LayoutNavHost()
+                Drawer()
             }
         }
     }

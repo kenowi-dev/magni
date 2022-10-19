@@ -1,38 +1,64 @@
 package de.wittenbu.magni.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import de.wittenbu.magni.components.DrawerScaffold
 import de.wittenbu.magni.models.Exercise
-
 import de.wittenbu.magni.services.ExerciseService
+import de.wittenbu.magni.ui.theme.MagniTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Exercises(
-    onOpenExercise: (Exercise) -> Unit
+    onOpenDrawer: () -> Unit,
+    onNavigateToExercise: (Exercise) -> Unit
 ) {
-    val exercises = ExerciseService.exercises
-
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally
+    DrawerScaffold(
+        title = "Exercises",
+        onOpenDrawer,
     ) {
-        items(exercises) { exercise ->
-            Card(
-                onClick = { onOpenExercise(exercise) }
-            ) {
-                Box(Modifier.fillMaxSize()) {
-                    Text(exercise.name, Modifier.align(Alignment.Center))
+        val exercises = ExerciseService.exercises
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp)
+        ) {
+            items(exercises) { exercise ->
+                Card(
+                    onClick = { onNavigateToExercise(exercise) }
+                ) {
+                    Column(Modifier.fillMaxSize()) {
+                        Text(exercise.name, Modifier.align(Alignment.CenterHorizontally))
+
+                        Text("Muscles", Modifier.align(Alignment.CenterHorizontally))
+                        exercise.muscles.forEach { muscle ->
+                            Text(muscle.name, Modifier.align(Alignment.CenterHorizontally))
+                        }
+                        exercise.variations.forEach { variation ->
+                            Text(variation.name, Modifier.align(Alignment.CenterHorizontally))
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = false)
+@Preview(name = "Light Mode")
+@Composable
+fun ExercisesPreview() {
+    MagniTheme {
+        Exercises(onOpenDrawer = {  }, onNavigateToExercise = {  })
     }
 }
