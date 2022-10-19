@@ -7,6 +7,7 @@ sealed class Screen(val name: String, val route: String, val args: String = "", 
     object Home : Screen("Home", "home", icon = R.drawable.home)
     object Exercises : Screen("Exercises", "exercises", icon = R.drawable.exercises)
     object Exercise : Screen("Exercise", "exercise", args = "/{exerciseId}")
+    object EditExercise : Screen("Edit Exercise", "editExercise", args = "/{exerciseId}")
     object Workouts : Screen("Workouts", "workouts", icon = R.drawable.workouts)
     object TrainingPlans : Screen("Training Plans", "training_plans", icon = R.drawable.training_plans)
 

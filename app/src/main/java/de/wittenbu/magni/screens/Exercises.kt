@@ -1,27 +1,25 @@
 package de.wittenbu.magni.screens
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.wittenbu.magni.components.DrawerScaffold
+import de.wittenbu.magni.components.ExerciseCard
 import de.wittenbu.magni.models.Exercise
 import de.wittenbu.magni.services.ExerciseService
 import de.wittenbu.magni.ui.theme.MagniTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Exercises(
     onOpenDrawer: () -> Unit,
-    onNavigateToExercise: (Exercise) -> Unit
+    onNavigateToExercise: (Exercise) -> Unit,
+    onNavigateToEditExercise: (Exercise) -> Unit
 ) {
     DrawerScaffold(
         title = "Exercises",
@@ -31,24 +29,10 @@ fun Exercises(
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+            contentPadding = PaddingValues(20.dp)
         ) {
             items(exercises) { exercise ->
-                Card(
-                    onClick = { onNavigateToExercise(exercise) }
-                ) {
-                    Column(Modifier.fillMaxSize()) {
-                        Text(exercise.name, Modifier.align(Alignment.CenterHorizontally))
-
-                        Text("Muscles", Modifier.align(Alignment.CenterHorizontally))
-                        exercise.muscles.forEach { muscle ->
-                            Text(muscle.name, Modifier.align(Alignment.CenterHorizontally))
-                        }
-                        exercise.variations.forEach { variation ->
-                            Text(variation.name, Modifier.align(Alignment.CenterHorizontally))
-                        }
-                    }
-                }
+                ExerciseCard(exercise = exercise, onNavigateToExercise = onNavigateToExercise, onNavigateToEditExercise = onNavigateToEditExercise)
             }
         }
     }
@@ -59,6 +43,6 @@ fun Exercises(
 @Composable
 fun ExercisesPreview() {
     MagniTheme {
-        Exercises(onOpenDrawer = {  }, onNavigateToExercise = {  })
+        Exercises(onOpenDrawer = {  }, onNavigateToExercise = {  }, onNavigateToEditExercise = { })
     }
 }

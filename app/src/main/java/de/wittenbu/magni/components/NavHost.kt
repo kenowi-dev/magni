@@ -33,7 +33,8 @@ fun NavHost(
         composable(Screen.Exercises.routeWithArgs()) {
             Exercises(
                 onOpenDrawer = onOpenDrawer,
-                onNavigateToExercise = { exercise -> navController.navigate("${Screen.Exercise.route}/${exercise.id}") }
+                onNavigateToExercise = { exercise -> navController.navigate("${Screen.Exercise.route}/${exercise.id}") },
+                onNavigateToEditExercise = { exercise -> navController.navigate("${Screen.EditExercise.route}/${exercise.id}") }
             )
         }
 
@@ -51,6 +52,22 @@ fun NavHost(
                 onGoBack = { navController.navigateUp() }
             )
         }
+
+        composable(
+            Screen.EditExercise.routeWithArgs(),
+            enterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(200))
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(200))
+            },
+        ) { navBackStackEntry ->
+            EditExercise(
+                exerciseId = navBackStackEntry.arguments!!.getString("exerciseId")!!,
+                onGoBack = { navController.navigateUp() }
+            )
+        }
+
         composable(Screen.Workouts.routeWithArgs()) { Workouts(onOpenDrawer = onOpenDrawer) }
         composable(Screen.TrainingPlans.routeWithArgs()) { TrainingPlans(onOpenDrawer = onOpenDrawer) }
     }
