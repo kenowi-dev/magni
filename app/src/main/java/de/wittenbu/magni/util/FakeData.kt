@@ -1,6 +1,7 @@
 package de.wittenbu.magni.util
 
 import de.wittenbu.magni.models.*
+import de.wittenbu.magni.models.exerciseVariations.*
 
 object FakeData {
 
@@ -11,66 +12,115 @@ object FakeData {
         val lats = Muscle(name = "Lats", muscleGroup = MuscleGroup.BACK)
         val quads = Muscle(name = "Quads", muscleGroup = MuscleGroup.LEGS)
         val calves = Muscle(name = "Calves", muscleGroup = MuscleGroup.LEGS)
+        val core = Muscle(name = "Core", muscleGroup = MuscleGroup.CORE)
     }
 
-    object Weight {
-        val bodyWeight = Weight(type = WeightType.BODY_WEIGHT, unit = WeightUnit.BODY_WEIGHT_PERCENT)
-        val barbell = Weight(type = WeightType.BARBELL, unit = WeightUnit.KG)
-        val machine = Weight(type = WeightType.MACHINE, unit = WeightUnit.KG)
+    object Variations {
+        val bodyWeightPush = BodyWeightVariation(
+            listOf(
+                BodyWeightVariables.AGAINST_WALL,
+                BodyWeightVariables.ON_FEET,
+                BodyWeightVariables.ELEVATED,
+                BodyWeightVariables.FEET_ELEVATED,
+                BodyWeightVariables.ON_KNEES,
+                BodyWeightVariables.WEIGHTED_VEST
+            )
+        )
+        val bodyWeightPull = BodyWeightVariation(
+            listOf(
+                BodyWeightVariables.WITH_BANDS,
+                BodyWeightVariables.WEIGHTED_VEST
+            )
+        )
+        val bodyWeightPlank = BodyWeightVariation(
+            listOf(
+                BodyWeightVariables.ON_FEET,
+                BodyWeightVariables.ELEVATED,
+                BodyWeightVariables.FEET_ELEVATED,
+                BodyWeightVariables.ON_KNEES,
+                BodyWeightVariables.WEIGHTED_VEST
+            )
+        )
+        val concentric = ConcentricVariation();
+        val eccentric = EccentricVariation();
+        val handPosition = HandPositionVariation(listOf(HandPositionType.HANDS_TOGETHER, HandPositionType.CLOSE, HandPositionType.WIDE, HandPositionType.SHOULDER_WIDE))
+        val hold = HoldVariation(listOf(ExercisePosition.TOP, ExercisePosition.MIDDLE, ExercisePosition.BOTTOM, ExercisePosition.HALF_TOP, ExercisePosition.HALF_TOP));
+        val rangeOfMotion = RangeOfMotionVariation();
+        val repetitions = RepetitionsVariation();
+        val feetPosition = FeetPositionVariation(listOf(FeetPositionType.WIDE, FeetPositionType.CLOSE, FeetPositionType.SHOULDER_WIDE))
+        val time = TimeVariation();
+        val weightPress = WeightVariation(listOf(WeightType.DUMBBELL, WeightType.BARBELL));
+        val weightPull = WeightVariation(listOf(WeightType.MACHINE));
+        val weightSquat = WeightVariation(listOf(WeightType.MACHINE, WeightType.BARBELL, WeightType.WEIGHTED_VEST));
     }
 
     object Exercise {
-        val pushUp = Exercise(
+        val pushUp = ExerciseDefinition(
             id = 1,
             name = "Push Ups",
-            weight = Weight.bodyWeight,
-            muscles = listOf(Muscles.triceps, Muscles.pecs)
+            variations = listOf(Variations.bodyWeightPush, Variations.concentric, Variations.eccentric, Variations.handPosition, Variations.hold, Variations.rangeOfMotion, Variations.repetitions),
+            muscles = listOf(Muscles.triceps, Muscles.pecs),
+            tags = setOf(Tag.BODY_WEIGHT, Tag.PUSH, Tag.REPS)
         )
 
-        val pullUps = Exercise(
+        val pullUps = ExerciseDefinition(
             id = 2,
             name = "Pull Ups",
-            weight = Weight.bodyWeight,
-            muscles = listOf(Muscles.biceps, Muscles.lats)
+            variations = listOf(Variations.bodyWeightPull, Variations.concentric, Variations.eccentric, Variations.handPosition, Variations.hold, Variations.rangeOfMotion, Variations.repetitions),
+            muscles = listOf(Muscles.biceps, Muscles.lats),
+            tags = setOf(Tag.BODY_WEIGHT, Tag.PULL, Tag.REPS)
         )
 
-        val bodyWeightSquats = Exercise(
+        val bodyWeightSquats = ExerciseDefinition(
             id = 3,
             name = "Body Weight Squats",
-            weight = Weight.bodyWeight,
-            muscles = listOf(Muscles.quads, Muscles.calves)
+            variations = listOf(Variations.bodyWeightPull, Variations.concentric, Variations.eccentric, Variations.hold, Variations.rangeOfMotion, Variations.repetitions, Variations.feetPosition),
+            muscles = listOf(Muscles.quads, Muscles.calves),
+            tags = setOf(Tag.BODY_WEIGHT, Tag.REPS)
         )
 
-        val benchPress = Exercise(
-            id = 3,
+        val benchPress = ExerciseDefinition(
+            id = 4,
             name = "Bench Press",
-            weight = Weight.barbell,
-            muscles = listOf(Muscles.triceps, Muscles.pecs)
+            variations = listOf(Variations.weightPress, Variations.concentric, Variations.eccentric, Variations.handPosition, Variations.hold, Variations.rangeOfMotion, Variations.repetitions),
+            muscles = listOf(Muscles.triceps, Muscles.pecs),
+            tags = setOf(Tag.BARBELL, Tag.PUSH, Tag.REPS)
         )
 
-        val latPullDown = Exercise(
-            id = 2,
+        val latPullDown = ExerciseDefinition(
+            id = 5,
             name = "Lat Pull Down",
-            weight = Weight.machine,
-            muscles = listOf(Muscles.biceps, Muscles.lats)
+            variations = listOf(Variations.weightPull, Variations.concentric, Variations.eccentric, Variations.handPosition, Variations.hold, Variations.rangeOfMotion, Variations.repetitions),
+            muscles = listOf(Muscles.biceps, Muscles.lats),
+            tags = setOf(Tag.MACHINE, Tag.PULL, Tag.REPS)
         )
 
-        val barbellSquats = Exercise(
-            id = 3,
+        val barbellSquats = ExerciseDefinition(
+            id = 6,
             name = "Barbell Squats",
-            weight = Weight.barbell,
-            muscles = listOf(Muscles.quads, Muscles.calves)
+            variations = listOf(Variations.weightSquat, Variations.concentric, Variations.eccentric, Variations.hold, Variations.rangeOfMotion, Variations.repetitions, Variations.feetPosition),
+            muscles = listOf(Muscles.quads, Muscles.calves),
+            tags = setOf(Tag.BARBELL, Tag.REPS)
         )
 
-        val pullUpBurpees = Exercise(
-            id = 3,
+        val pullUpBurpees = ExerciseDefinition(
+            id = 7,
             name = "Pull Up Burpees",
-            weight = Weight.bodyWeight,
-            muscles = listOf(Muscles.biceps, Muscles.lats, Muscles.triceps, Muscles.pecs, Muscles.quads, Muscles.calves)
+            variations = listOf(),
+            muscles = listOf(Muscles.biceps, Muscles.lats, Muscles.triceps, Muscles.pecs, Muscles.quads, Muscles.calves),
+            tags = setOf(Tag.PUSH, Tag.PULL, Tag.BODY_WEIGHT)
         )
 
-        fun getAll(): List<de.wittenbu.magni.models.Exercise> {
-            return listOf(pushUp, pullUps, bodyWeightSquats, benchPress, latPullDown, barbellSquats, pullUpBurpees)
+        val plank = ExerciseDefinition(
+            id = 8,
+            name = "Plank",
+            variations = listOf(Variations.time, Variations.bodyWeightPlank),
+            muscles = listOf(Muscles.core),
+            tags = setOf(Tag.TIMED, Tag.STATIC, Tag.BODY_WEIGHT)
+        )
+
+        fun getAll(): List<ExerciseDefinition> {
+            return listOf(pushUp, pullUps, bodyWeightSquats, benchPress, latPullDown, barbellSquats, pullUpBurpees, plank)
         }
     }
 }

@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,21 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.wittenbu.magni.R
-import de.wittenbu.magni.models.Exercise
+import de.wittenbu.magni.models.ExerciseDefinition
 import de.wittenbu.magni.ui.theme.MagniTheme
 import de.wittenbu.magni.util.FakeData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExerciseCard(
-    exercise: Exercise,
-    onNavigateToExercise: (Exercise) -> Unit,
-    onNavigateToEditExercise: (Exercise) -> Unit
+    exercise: ExerciseDefinition,
+    onNavigateToExercise: (ExerciseDefinition) -> Unit,
+    onNavigateToEditExercise: (ExerciseDefinition) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     ElevatedCard(
@@ -72,20 +69,20 @@ fun ExerciseCard(
             Spacer(modifier = Modifier.height(20.dp))
             val muscles = exercise.muscles.joinToString { it.name }
             Column(modifier = Modifier.padding(start = 40.dp)) {
-                Row {
-                    Text("Type", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(exercise.weight.type.readable, color = MaterialTheme.colorScheme.onBackground)
-                }
-                Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.padding(end = 20.dp)) {
                     Text("Muscles", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(muscles, color = MaterialTheme.colorScheme.onBackground, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                if (exercise.tags.isNotEmpty()) {
+                    Row {
+                        Text("Tags", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(exercise.tags.joinToString { it.readable }, color = MaterialTheme.colorScheme.onBackground, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                }
             }
-
-
         }
     }
 }

@@ -1,7 +1,7 @@
 package de.wittenbu.magni.models
 
 enum class MuscleGroup {
-    LEGS, BACK, CHEST, ARMS
+    LEGS, BACK, CHEST, ARMS, CORE
 }
 
 data class Muscle(

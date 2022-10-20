@@ -1,9 +1,18 @@
 package de.wittenbu.magni.models
 
-data class Exercise(
+import de.wittenbu.magni.models.exerciseVariations.ExerciseExecution
+import de.wittenbu.magni.models.exerciseVariations.ExerciseVariation
+import de.wittenbu.magni.models.exerciseVariations.Tag
+
+class ExerciseDefinition(
     val id: Long,
     val name: String,
-    val weight: Weight,
+    val variations: List<ExerciseVariation> = listOf(),
     val muscles: List<Muscle> = listOf(),
-    val variations: List<Exercise> = listOf()
+    val tags: Set<Tag> = setOf()
+)
+
+data class ExerciseExecution(
+    val exerciseDefinition: ExerciseDefinition,
+    val execution: List<ExerciseExecution>
 )

@@ -11,15 +11,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.wittenbu.magni.components.DrawerScaffold
 import de.wittenbu.magni.components.ExerciseCard
-import de.wittenbu.magni.models.Exercise
+import de.wittenbu.magni.models.ExerciseDefinition
 import de.wittenbu.magni.services.ExerciseService
 import de.wittenbu.magni.ui.theme.MagniTheme
 
 @Composable
 fun Exercises(
     onOpenDrawer: () -> Unit,
-    onNavigateToExercise: (Exercise) -> Unit,
-    onNavigateToEditExercise: (Exercise) -> Unit
+    onNavigateToExercise: (ExerciseDefinition) -> Unit,
+    onNavigateToEditExercise: (ExerciseDefinition) -> Unit
 ) {
     DrawerScaffold(
         title = "Exercises",
