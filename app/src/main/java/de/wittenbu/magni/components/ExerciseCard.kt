@@ -31,7 +31,7 @@ fun ExerciseCard(
     var expanded by remember { mutableStateOf(false) }
     ElevatedCard(
         onClick = { onNavigateToExercise(exercise) },
-        modifier = Modifier.height(133.dp)
+        modifier = Modifier.height(170.dp)
     ) {
         Column(modifier = Modifier.padding(PaddingValues(20.dp))) {
             Row (modifier = Modifier.height(20.dp) ) {
@@ -48,7 +48,9 @@ fun ExerciseCard(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier)
                 Spacer(modifier = Modifier.weight(1f))
-                Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopEnd)) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded = true }) {
                         Icon(Icons.Default.MoreVert, contentDescription = null)
                     }
@@ -67,20 +69,24 @@ fun ExerciseCard(
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            val muscles = exercise.muscles.joinToString { it.name }
-            Column(modifier = Modifier.padding(start = 40.dp)) {
-                Row(modifier = Modifier.padding(end = 20.dp)) {
-                    Text("Muscles", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(muscles, color = MaterialTheme.colorScheme.onBackground, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (exercise.tags.isNotEmpty()) {
-                    Row {
-                        Text("Tags", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(exercise.tags.joinToString { it.readable }, color = MaterialTheme.colorScheme.onBackground, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    }
+
+            val chips: MutableSet<String> = mutableSetOf()
+            chips.add(exercise.trainingType.toString())
+            chips.addAll(exercise.weightType.map { it.toString() })
+            chips.addAll(exercise.movementTypes.map { it.toString() })
+            chips.addAll(exercise.muscles.map { it.toString() })
+
+            ChipGrid(
+                spacing = 6.dp,
+                moreItemsView = { SuggestionChip(onClick = { }, enabled = false, label = { Text(text = "+ $it") }) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                chips.forEach {
+                    SuggestionChip(
+                        onClick = { },
+                        enabled = false,
+                        label = { Text(text = it, overflow = TextOverflow.Ellipsis, maxLines = 1) }
+                    )
                 }
             }
         }
