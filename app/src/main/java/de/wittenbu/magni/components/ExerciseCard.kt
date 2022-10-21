@@ -8,12 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.wittenbu.magni.R
@@ -29,9 +27,10 @@ fun ExerciseCard(
     onNavigateToEditExercise: (ExerciseDefinition) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var favorite by remember { mutableStateOf(false) }
+
     ElevatedCard(
-        onClick = { onNavigateToExercise(exercise) },
-        modifier = Modifier.height(170.dp)
+        onClick = { onNavigateToExercise(exercise) }
     ) {
         Column(modifier = Modifier.padding(PaddingValues(20.dp))) {
             Row (modifier = Modifier.height(20.dp) ) {
@@ -48,9 +47,11 @@ fun ExerciseCard(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier)
                 Spacer(modifier = Modifier.weight(1f))
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.TopEnd)) {
+                IconButton(onClick = { favorite = !favorite }) {
+                    val drawable = if (favorite) R.drawable.star_filled else R.drawable.star_outline
+                    Icon(painterResource(id = drawable), contentDescription = null)
+                }
+                Box(modifier = Modifier.width(20.dp)) {
                     IconButton(onClick = { expanded = true }) {
                         Icon(Icons.Default.MoreVert, contentDescription = null)
                     }
@@ -66,27 +67,6 @@ fun ExerciseCard(
                             onClick = { /* TODO */ }
                         )
                     }
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-
-            val chips: MutableSet<String> = mutableSetOf()
-            chips.add(exercise.trainingType.toString())
-            chips.addAll(exercise.weightType.map { it.toString() })
-            chips.addAll(exercise.movementTypes.map { it.toString() })
-            chips.addAll(exercise.muscles.map { it.toString() })
-
-            ChipGrid(
-                spacing = 6.dp,
-                moreItemsView = { SuggestionChip(onClick = { }, enabled = false, label = { Text(text = "+ $it") }) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                chips.forEach {
-                    SuggestionChip(
-                        onClick = { },
-                        enabled = false,
-                        label = { Text(text = it, overflow = TextOverflow.Ellipsis, maxLines = 1) }
-                    )
                 }
             }
         }
